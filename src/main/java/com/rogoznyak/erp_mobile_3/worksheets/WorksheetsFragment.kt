@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.rogoznyak.erp_mobile_3.databinding.WorksheetsFragmentBinding
-import com.rogoznyak.erp_mobile_3.settings.SettingsViewModel
 
 
 class WorksheetsFragment : Fragment() {

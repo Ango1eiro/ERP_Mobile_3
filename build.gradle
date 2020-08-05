@@ -26,6 +26,11 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
 }
 
 dependencies {
@@ -55,12 +60,24 @@ dependencies {
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
 
     // Material design components
     implementation "com.google.android.material:material:1.3.0-alpha02"
 
     // Preferences
     implementation "androidx.preference:preference:1.1.1"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.8"
+
+    //Logging Network Calls
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
 
 }

@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreferenceCompat
-        app:key="enableFloatButtonOnMain"
-        app:title="Enable floating button on the main screen"/>
+        app:key="enableFabOnMain"
+        app:title="Enable FAB on the home screen"/>
 
     <Preference
-        app:key="feedback"
-        app:title="Send feedback"
-        app:summary="Report technical issues or suggest new features"/>
+        app:key="checkConnection"
+        app:title="Check connection"
+        app:summary="Connection status"/>
+    <PreferenceCategory
+        android:title="Connection settings">
+
+        <EditTextPreference
+            android:defaultValue="User"
+            android:key="login"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Username"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue="12345"
+            android:inputType="textPassword"
+            android:key="password"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="**********"
+            android:title="Pasword" />
+        <EditTextPreference
+            android:defaultValue="http://172.31.255.85:80/erp_anit/hs/erp_mobile_app"
+            android:key="host"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Host address"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
 
 </PreferenceScreen>
