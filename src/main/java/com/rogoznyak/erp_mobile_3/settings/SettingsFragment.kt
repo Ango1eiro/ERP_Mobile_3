@@ -38,13 +38,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val checkConnectionPreference: Preference? = findPreference("checkConnection")
         checkConnectionPreference?.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                it.setSummary("OK")
+                checkConnectionPreference?.setSummary("Waiting for status")
+                viewModel.firstTodo.observe(this, Observer {
+                    checkConnectionPreference?.setSummary(it.title)
+                })
             true
         }
 
-        viewModel.firstTodo.observe(this, Observer {
-            checkConnectionPreference?.setSummary(it.title)
-        })
+
 
     }
 
