@@ -32,8 +32,6 @@ interface Webservice {
 }
 
 val webservice by lazy {
-
-
     val interceptor : HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         this.level = HttpLoggingInterceptor.Level.BODY
     }
@@ -57,7 +55,7 @@ val webservice by lazy {
         .build()
 
     Retrofit.Builder()
-        .baseUrl(URL_test)
+        .baseUrl(MyCredentials().url)
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
         .client(client)
         .build()
@@ -79,7 +77,8 @@ class MyCredentials {
         MyCustomApplication.mAppComponent.inject(this)
     }
 
-    val credential = "basic " + Base64.encodeToString((sharedPreferences.getString("login","") + ":" + sharedPreferences.getString("password","")).toByteArray(),Base64.NO_WRAP)
+    val credential = "basic " + Base64.encodeToString((sharedPreferences.getString("login","login") + ":" + sharedPreferences.getString("password","password")).toByteArray(),Base64.NO_WRAP)
+    val url = sharedPreferences.getString("host","172.31.255.0")
 }
 
 

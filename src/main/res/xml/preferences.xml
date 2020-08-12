@@ -10,6 +10,10 @@
         app:key="checkConnection"
         app:title="Check connection"
         app:summary="Connection status"/>
+    <Preference
+        app:key="updateCatalogues"
+        app:title="Update catalogues"
+        app:summary="Update status"/>
     <PreferenceCategory
         android:title="Connection settings">
 
@@ -29,7 +33,7 @@
             android:summary="**********"
             android:title="Pasword" />
         <EditTextPreference
-            android:defaultValue="http://172.31.255.85:80/erp_anit/hs/erp_mobile_app"
+            android:defaultValue="http://172.31.255.85:80/"
             android:key="host"
             android:selectAllOnFocus="true"
             android:singleLine="true"

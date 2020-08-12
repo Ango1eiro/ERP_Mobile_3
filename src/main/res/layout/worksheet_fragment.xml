@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="viewModel" type="com.rogoznyak.erp_mobile_3.worksheets.WorksheetsViewModel" />
+        <variable name="viewModel" type="com.rogoznyak.erp_mobile_3.worksheets.worksheet.WorksheetViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Worksheets"
+                android:text="Worksheet"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatTextView>
 
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/spacing_normal"
-            android:onClick="@{() -> viewModel.onFabClicked()}"/>
+            android:onClick="@{() -> 1}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

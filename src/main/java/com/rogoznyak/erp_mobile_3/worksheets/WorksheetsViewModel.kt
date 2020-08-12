@@ -5,15 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 class WorksheetsViewModel : ViewModel() {
-    private val _navigateToSearch = MutableLiveData<Boolean>()
-    val navigateToSearch: LiveData<Boolean>
-        get() = _navigateToSearch
+    private val _navigateToWorksheet = MutableLiveData<Boolean>()
+    val navigateToWorksheet: LiveData<Boolean>
+        get() = _navigateToWorksheet
 
     fun onFabClicked() {
-        _navigateToSearch.value = true
+        _navigateToWorksheet.value = true
     }
 
     fun onNavigatedToSearch() {
-        _navigateToSearch.value = false
+        _navigateToWorksheet.value = false
     }
 }

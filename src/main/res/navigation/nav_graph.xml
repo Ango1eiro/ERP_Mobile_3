@@ -24,9 +24,17 @@
     <fragment
         android:id="@+id/worksheetsFragment"
         android:name="com.rogoznyak.erp_mobile_3.worksheets.WorksheetsFragment"
-        android:label="WorksheetsFragment" />
+        android:label="WorksheetsFragment" >
+        <action
+            android:id="@+id/action_worksheetsFragment_to_worksheetFragment"
+            app:destination="@id/worksheetFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.rogoznyak.erp_mobile_3.settings.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/worksheetFragment"
+        android:name="com.rogoznyak.erp_mobile_3.worksheets.worksheet.WorksheetFragment"
+        android:label="WorksheetFragment" />
 </navigation>
