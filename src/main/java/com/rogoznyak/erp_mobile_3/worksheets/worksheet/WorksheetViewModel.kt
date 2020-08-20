@@ -9,11 +9,14 @@ class WorksheetViewModel : ViewModel() {
     val navigateToSearch: LiveData<Boolean>
         get() = _navigateToSearch
 
-    fun onFabClicked() {
+    fun onButtonClicked() {
         _navigateToSearch.value = true
     }
 
     fun onNavigatedToSearch() {
         _navigateToSearch.value = false
     }
+
+    var counterpartGuid = ""
+
 }

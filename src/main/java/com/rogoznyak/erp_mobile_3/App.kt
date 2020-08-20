@@ -4,7 +4,10 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.preference.PreferenceManager
+import com.google.gson.GsonBuilder
 import com.rogoznyak.erp_mobile_3.network.MyCredentials
+import com.rogoznyak.erp_mobile_3.network.TodoRepository
+import com.rogoznyak.erp_mobile_3.search.SearchFragment
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -16,6 +19,9 @@ class MyCustomApplication() : Application() {
 
     companion object {
         lateinit var mAppComponent : AppComponent
+        val gson = GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            .create()
     }
 
     // Called when the application is starting, before any other application objects have been created.
@@ -38,6 +44,10 @@ class AppModule (val mApplication: Application ) {
     @Provides
     @Singleton
     fun providesApplication() = mApplication
+
+    @Provides
+    @Singleton
+    fun provideAppContext() = mApplication.applicationContext
 }
 
 @Module
@@ -55,6 +65,7 @@ class NetModule {
 @Singleton
 interface AppComponent {
     fun inject(myCredentials: MyCredentials)
+    fun inject(repository: TodoRepository)
 }
 
 

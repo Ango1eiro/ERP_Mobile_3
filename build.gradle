@@ -29,11 +29,17 @@ android {
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
+
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 
 }
 
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -89,5 +95,8 @@ dependencies {
     // Room database
     implementation "androidx.room:room-runtime:2.2.5"
     kapt "androidx.room:room-compiler:2.2.5"
+
+    //Testing
+    androidTestImplementation "android.arch.core:core-testing:1.1.1"
 
 }

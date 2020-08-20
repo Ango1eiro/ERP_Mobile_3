@@ -11,19 +11,66 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/spacing_normal"
             android:clipToPadding="true"
+            android:paddingBottom="@dimen/spacing_normal"
             app:layout_constraintGuide_end="@dimen/spacing_normal"
             tools:context=".home.HomeFragment">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <EditText
+                android:id="@+id/editText_Date"
+                android:layout_width="243dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="Date"
+                android:inputType="date"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.095"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editText_Counterpart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Worksheet"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:editable="false"
+                android:ems="10"
+                android:hint="Counterpart"
+                android:inputType="textPersonName"
+                android:onClick="@{() -> viewModel.onButtonClicked()}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatTextView>
+                app:layout_constraintTop_toBottomOf="@+id/editText_Date" />
+
+            <EditText
+                android:id="@+id/editTextDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Duration"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_Counterpart" />
+
+            <EditText
+                android:id="@+id/editTextDescription"
+                android:layout_width="0dp"
+                android:layout_height="128dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:ems="10"
+                android:hint="Description"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextDuration" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -32,7 +79,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/spacing_normal"
-            android:onClick="@{() -> 1}"/>
+            android:onClick="@{() -> 1}"
+
+            android:src="@drawable/ic_check_24px" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

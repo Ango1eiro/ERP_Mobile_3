@@ -36,5 +36,17 @@
     <fragment
         android:id="@+id/worksheetFragment"
         android:name="com.rogoznyak.erp_mobile_3.worksheets.worksheet.WorksheetFragment"
-        android:label="WorksheetFragment" />
+        android:label="WorksheetFragment" >
+        <action
+            android:id="@+id/action_worksheetFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.rogoznyak.erp_mobile_3.search.SearchFragment"
+        android:label="SearchFragment" >
+        <argument
+            android:name="searchType"
+            app:argType="com.rogoznyak.erp_mobile_3.search.SearchType" />
+    </fragment>
 </navigation>

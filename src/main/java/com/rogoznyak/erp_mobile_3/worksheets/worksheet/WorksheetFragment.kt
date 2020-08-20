@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.rogoznyak.erp_mobile_3.R
 import com.rogoznyak.erp_mobile_3.databinding.WorksheetFragmentBinding
 import com.rogoznyak.erp_mobile_3.databinding.WorksheetsFragmentBinding
+import com.rogoznyak.erp_mobile_3.search.SearchType
 import com.rogoznyak.erp_mobile_3.worksheets.WorksheetsViewModel
 
 class WorksheetFragment : Fragment() {
@@ -20,23 +24,31 @@ class WorksheetFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        val view = inflater.inflate(R.layout.home_fragment, container, false)
-//        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
 
         val binding = WorksheetFragmentBinding.inflate(inflater)
         viewModel = ViewModelProviders.of(this).get(WorksheetViewModel::class.java)
         binding.viewModel = viewModel
 
+        val navController = findNavController()
+        navController.currentBackStackEntry?.savedStateHandle?.getLiveData<String>("key")?.observe(viewLifecycleOwner,
+            Observer {
+                    result ->
+                binding.viewModel.counterpartGuid = result
+                binding.editTextCounterpart.hint = result
+            })
+
         viewModel.navigateToSearch.observe(viewLifecycleOwner,
             Observer<Boolean> { shouldNavigate ->
                 if (shouldNavigate == true) {
-                    val navController = binding.root.findNavController()
-//                    navController.navigate(R.id.action_homeFragment_to_gdgListFragment)
+
+                    val action = WorksheetFragmentDirections.actionWorksheetFragmentToSearchFragment(SearchType.COUNTERPART)
+                    navController.navigate(action)
                     viewModel.onNavigatedToSearch()
                 }
             })
 
         return binding.root
     }
+
 }

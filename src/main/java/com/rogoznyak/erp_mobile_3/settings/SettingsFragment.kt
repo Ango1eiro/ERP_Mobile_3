@@ -2,12 +2,16 @@ package com.rogoznyak.erp_mobile_3.settings
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.rogoznyak.erp_mobile_3.R
+import com.rogoznyak.erp_mobile_3.database.getDatabase
+import com.rogoznyak.erp_mobile_3.network.UpdateStatus
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -34,7 +38,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
             }
 
-
+        // Finding checkConnection preference and assigning it click listener
         val checkConnectionPreference: Preference? = findPreference("checkConnection")
         checkConnectionPreference?.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
@@ -44,6 +48,24 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 })
             true
         }
+
+        // Finding checkConnection preference and assigning it click listener
+        val updateCataloguesPreference: Preference? = findPreference("updateCatalogues")
+        updateCataloguesPreference?.onPreferenceClickListener =
+            Preference.OnPreferenceClickListener {
+                updateCataloguesPreference?.setSummary("Starting download")
+                viewModel.updateStatus.observe(this, Observer {
+                    when (it)
+                    {
+                        UpdateStatus.DONE -> {
+                            updateCataloguesPreference?.setSummary("Done")
+                        }
+                        UpdateStatus.INPROGRESS -> updateCataloguesPreference?.setSummary("In progress")
+                        UpdateStatus.ERROR -> updateCataloguesPreference?.setSummary("Error")
+                    }
+                })
+                true
+            }
 
 
 

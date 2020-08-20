@@ -31,7 +31,7 @@ class WorksheetsFragment : Fragment() {
                 if (shouldNavigate == true) {
                     val navController = binding.root.findNavController()
                     navController.navigate(R.id.action_worksheetsFragment_to_worksheetFragment)
-                    viewModel.onNavigatedToSearch()
+                    viewModel.onNavigatedToWorksheet()
                 }
             })
 

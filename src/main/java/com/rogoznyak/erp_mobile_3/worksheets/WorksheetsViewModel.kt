@@ -13,7 +13,7 @@ class WorksheetsViewModel : ViewModel() {
         _navigateToWorksheet.value = true
     }
 
-    fun onNavigatedToSearch() {
+    fun onNavigatedToWorksheet() {
         _navigateToWorksheet.value = false
     }
 }
