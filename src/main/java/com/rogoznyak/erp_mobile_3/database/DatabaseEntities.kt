@@ -58,18 +58,12 @@ data class DatabaseTaskWithNames constructor(
         entity = DatabaseCounterpart::class,
         parentColumns = arrayOf("guid"),
         childColumns = arrayOf("guidCounterpart")
-    ),
-    ForeignKey(
-        entity = DatabaseUser::class,
-        parentColumns = arrayOf("guid"),
-        childColumns = arrayOf("guidUser")
     )
 ])
 data class DatabaseWorksheet(
     @PrimaryKey
     val guid: String,
     val guidCounterpart: String,
-    val guidUser: String,
     val description: String,
     val date: String,
     val duration: String)

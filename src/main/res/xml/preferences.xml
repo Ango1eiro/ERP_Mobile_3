@@ -6,6 +6,10 @@
         app:key="enableFabOnMain"
         app:title="Enable FAB on the home screen"/>
 
+    <SwitchPreferenceCompat
+        app:key="onlineMode"
+        app:title="Enable online mode"/>
+
     <Preference
         app:key="checkConnection"
         app:title="Check connection"

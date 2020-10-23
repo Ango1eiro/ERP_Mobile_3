@@ -4,5 +4,10 @@ data class NetworkContact(
     val guid: String,
     val name: String,
     val guidCounterpart: String,
-    val phone: String) {
-}
+    val phone: String)
+
+data class NetworkWorksheet(
+    val counterpart: String,
+    val duration: String,
+    val description: String
+)

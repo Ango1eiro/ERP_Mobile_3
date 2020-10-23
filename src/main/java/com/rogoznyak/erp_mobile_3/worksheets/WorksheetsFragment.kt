@@ -26,7 +26,7 @@ class WorksheetsFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(WorksheetsViewModel::class.java)
         binding.viewModel = viewModel
 
-        viewModel.navigateToWorksheet.observe(viewLifecycleOwner,
+        viewModel.navigateToNewWorksheet.observe(viewLifecycleOwner,
             Observer<Boolean> { shouldNavigate ->
                 if (shouldNavigate == true) {
                     val navController = binding.root.findNavController()

@@ -17,6 +17,7 @@ import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -47,6 +48,9 @@ interface Webservice {
 
     @POST("anit_erp_test/hs/erp_mobile_app/contacts")
     suspend fun updateContactList(): List<NetworkContact>
+
+    @POST("anit_erp_test/hs/erp_mobile_app/worksheet")
+    suspend fun sendWorksheet(@Body networkWorksheet: NetworkWorksheet): Todo
 
 }
 
@@ -88,6 +92,14 @@ class TodoRepository {
         MyCustomApplication.mAppComponent.inject(this)
     }
 
+    suspend fun getCounterpartByGuid(guid: String) : Counterpart {
+        val counterpart: DatabaseCounterpart
+        withContext(Dispatchers.IO){
+            counterpart = getDatabase(appContext).AppDao.getCounterpartByGuid(guid)
+        }
+        return counterpart.transform()
+    }
+
     suspend fun getTodo(id: Int) = client.getTodoTest()
 
     suspend fun updateUserList(){
@@ -120,13 +132,21 @@ class TodoRepository {
         }
     }
 
-
-
     suspend fun updateCatalogues() : UpdateStatus {
         updateUserList()
         updateCounterpartList()
         updateContactList()
         return UpdateStatus.DONE
+    }
+
+    suspend fun sendWorksheet(networkWorksheet: NetworkWorksheet) : Todo {
+        return client.sendWorksheet(networkWorksheet)
+    }
+
+    suspend fun saveWorksheet(databaseWorksheet: DatabaseWorksheet) {
+        withContext(Dispatchers.IO){
+            getDatabase(appContext).AppDao.insertOrUpdate(databaseWorksheet)
+        }
     }
 
 

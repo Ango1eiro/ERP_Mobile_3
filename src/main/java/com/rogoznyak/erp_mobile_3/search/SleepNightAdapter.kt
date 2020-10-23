@@ -13,26 +13,38 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
-//private val ITEM_VIEW_TYPE_HEADER = 0
 private val ITEM_VIEW_TYPE_ITEM = 1
 
 class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<DataItem,
         RecyclerView.ViewHolder>(SleepNightDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
+    private var unfilteredList = listOf<DataItem.SleepNightItem>()
 
     fun addHeaderAndSubmitList(list: List<Counterpart>?) {
         adapterScope.launch {
-//            val items = when (list) {
-//                null -> listOf(DataItem.Header)
-//                else -> listOf(DataItem.Header) + list.map { DataItem.SleepNightItem(it) }
-//            }
             val items = list?.map { DataItem.SleepNightItem(it) }
+            unfilteredList = items!!
             withContext(Dispatchers.Main) {
                 submitList(items)
             }
         }
+    }
+
+    fun filter(query: CharSequence?) {
+        val list = mutableListOf<DataItem.SleepNightItem>()
+
+        // perform the data filtering
+        if(!query.isNullOrEmpty()) {
+            list.addAll(unfilteredList.filter {
+                it.sleepNight.name.toLowerCase(Locale.getDefault()).contains(query.toString().toLowerCase(Locale.getDefault())) })
+        } else {
+            list.addAll(unfilteredList)
+        }
+
+        submitList(list as List<DataItem>?)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -46,25 +58,14 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-//            ITEM_VIEW_TYPE_HEADER -> TextViewHolder.from(parent)
             ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
             else -> throw ClassCastException("Unknown viewType ${viewType}")
         }
     }
 
-//    class TextViewHolder(view: View): RecyclerView.ViewHolder(view) {
-//        companion object {
-//            fun from(parent: ViewGroup): TextViewHolder {
-//                val layoutInflater = LayoutInflater.from(parent.context)
-//                val view = layoutInflater.inflate(R.layout.header, parent, false)
-//                return TextViewHolder(view)
-//            }
-//        }
-//    }
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            //is DataItem.Header -> ITEM_VIEW_TYPE_HEADER
             is DataItem.SleepNightItem -> ITEM_VIEW_TYPE_ITEM
         }
     }
@@ -113,10 +114,6 @@ sealed class DataItem {
     data class SleepNightItem(val sleepNight: Counterpart): DataItem() {
         override val id = sleepNight.guid
     }
-
-//    object Header: DataItem() {
-//        override val id = ""
-//    }
 
     abstract val id: String
 }

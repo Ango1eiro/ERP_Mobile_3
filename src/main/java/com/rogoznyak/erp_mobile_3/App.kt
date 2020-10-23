@@ -8,6 +8,8 @@ import com.google.gson.GsonBuilder
 import com.rogoznyak.erp_mobile_3.network.MyCredentials
 import com.rogoznyak.erp_mobile_3.network.TodoRepository
 import com.rogoznyak.erp_mobile_3.search.SearchFragment
+import com.rogoznyak.erp_mobile_3.worksheets.worksheet.WorksheetFragment
+import com.rogoznyak.erp_mobile_3.worksheets.worksheet.WorksheetViewModel
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -66,6 +68,7 @@ class NetModule {
 interface AppComponent {
     fun inject(myCredentials: MyCredentials)
     fun inject(repository: TodoRepository)
+    fun inject(worksheetViewModel: WorksheetViewModel)
 }
 
 

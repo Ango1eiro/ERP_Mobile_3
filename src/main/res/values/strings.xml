@@ -3,4 +3,5 @@
     <string name="tasks_name">Tasks</string>
     <string name="worksheets_name">Worksheets</string>
     <string name="settings_name">Settings</string>
+    <string name="status_in_progress">In progress</string>
 </resources>

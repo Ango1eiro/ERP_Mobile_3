@@ -19,6 +19,7 @@ package com.rogoznyak.erp_mobile_3.database
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 
 @Dao
@@ -41,6 +42,12 @@ interface AppDao {
     @Query("select * from DatabaseCounterpart")
     fun getCounterparts(): LiveData<List<DatabaseCounterpart>>
 
+    @Query("select * from DatabaseCounterpart where name LIKE :text")
+    fun getCounterpartsWithFilter(text:String): LiveData<List<DatabaseCounterpart>>
+
+    @Query("select * from DatabaseCounterpart where guid = :text")
+    fun getCounterpartByGuid(text:String): DatabaseCounterpart
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg task: DatabaseTask)
 
@@ -58,12 +65,13 @@ interface AppDao {
     fun update(entity: DatabaseTask)
 
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertIgnoreAction(entity: DatabaseWorksheet): Long
 
     @Transaction
     fun insertOrUpdate(entity: DatabaseWorksheet){
-        if (insertIgnoreAction(entity) == -1L) {
+        val result = insertIgnoreAction(entity)
+        if (result == -1L) {
             update(entity)
         }
     }
@@ -117,7 +125,7 @@ interface AppDao {
 
 }
 
-@Database(entities = [DatabaseTask::class,DatabaseWorksheet::class,DatabaseCounterpart::class,DatabaseContact::class,DatabaseUser::class], version = 1)
+@Database(entities = [DatabaseTask::class,DatabaseWorksheet::class,DatabaseCounterpart::class,DatabaseContact::class,DatabaseUser::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract val AppDao: AppDao
 }
@@ -128,7 +136,9 @@ fun getDatabase(context: Context): AppDatabase {
     if (!::INSTANCE.isInitialized) synchronized(RoomDatabase::class.java) {
         INSTANCE = Room.databaseBuilder(context.applicationContext,
             AppDatabase::class.java,
-                "appDatabase").build()
+                "appDatabase")
+            .fallbackToDestructiveMigration()
+            .build()
     }
     return INSTANCE
 }

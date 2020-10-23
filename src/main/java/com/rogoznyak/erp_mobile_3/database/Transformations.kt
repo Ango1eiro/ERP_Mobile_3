@@ -27,6 +27,10 @@ fun Counterpart.transform() = DatabaseCounterpart(
      guid = this.guid,
      name = this.name)
 
+fun DatabaseCounterpart.transform() = Counterpart(
+    guid = this.guid,
+    name = this.name)
+
 fun User.transform() = DatabaseUser(
     guid = this.guid,
     name = this.name)

@@ -2,9 +2,8 @@ package com.rogoznyak.erp_mobile_3.search
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -41,12 +40,12 @@ class SearchFragment : Fragment() {
 
         val navController = findNavController()
 
-        binding.textView.text = args.searchType.toString()
-
-        binding.textView.setOnClickListener { v ->
-            navController.previousBackStackEntry?.savedStateHandle?.set("key","123123123")
-            navController.popBackStack()
-        }
+//        binding.textView.text = args.searchType.toString()
+//
+//        binding.textView.setOnClickListener { v ->
+//            navController.previousBackStackEntry?.savedStateHandle?.set("key","123123123")
+//            navController.popBackStack()
+//        }
 
         val manager = LinearLayoutManager(activity)
 
@@ -68,6 +67,18 @@ class SearchFragment : Fragment() {
             it?.let {
                 adapter.addHeaderAndSubmitList(it.transformFromDatabaseCounterpartToCounterpart())
             }
+        })
+
+        binding.itemSearch.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter(newText)
+                return false
+            }
+
         })
 
 
