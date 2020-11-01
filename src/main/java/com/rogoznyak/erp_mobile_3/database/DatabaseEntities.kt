@@ -61,9 +61,17 @@ data class DatabaseTaskWithNames constructor(
     )
 ])
 data class DatabaseWorksheet(
-    @PrimaryKey
-    val guid: String,
+    @PrimaryKey(autoGenerate = true)
+    val guid: Long,
     val guidCounterpart: String,
+    val description: String,
+    val date: String,
+    val duration: String)
+
+data class DatabaseWorksheetFullData(
+    val guid: Long,
+    val guidCounterpart: String,
+    val nameCounterpart: String,
     val description: String,
     val date: String,
     val duration: String)

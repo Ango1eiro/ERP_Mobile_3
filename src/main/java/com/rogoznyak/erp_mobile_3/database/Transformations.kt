@@ -1,10 +1,8 @@
 package com.rogoznyak.erp_mobile_3.database
 
+import android.provider.ContactsContract
 import com.rogoznyak.erp_mobile_3.MyCustomApplication
-import com.rogoznyak.erp_mobile_3.domain.Contact
-import com.rogoznyak.erp_mobile_3.domain.Counterpart
-import com.rogoznyak.erp_mobile_3.domain.Task
-import com.rogoznyak.erp_mobile_3.domain.User
+import com.rogoznyak.erp_mobile_3.domain.*
 import com.rogoznyak.erp_mobile_3.network.NetworkContact
 
 fun Task.transform() = DatabaseTask(
@@ -19,6 +17,14 @@ fun DatabaseTask.transform() = Task(
     guid = this.guid,
     counterpart = MyCustomApplication.gson.fromJson(this.guidCounterpart,Counterpart::class.java),
     user = MyCustomApplication.gson.fromJson(this.guidUser,User::class.java),
+    description = this.description,
+    date = this.date
+)
+
+fun DatabaseWorksheetFullData.transform() = Worksheet(
+    guid = this.guid,
+    counterpart = Counterpart(this.guidCounterpart,this.nameCounterpart),
+    duration = this.duration,
     description = this.description,
     date = this.date
 )
@@ -72,4 +78,31 @@ fun List<NetworkContact>.networkContactToDatabaseContact() : List<DatabaseContac
         )
     }
 }
+
+fun List<DatabaseWorksheet>.transformFromDatabaseWorksheetToWorksheet() : List<Worksheet> {
+    return map {
+        Worksheet(
+            guid = it.guid,
+            counterpart = Counterpart(it.guidCounterpart,it.guidCounterpart),
+            date = it.date,
+            description = it.description,
+            duration = it.duration
+
+        )
+    }
+}
+
+fun List<DatabaseWorksheetFullData>.transformFromDatabaseWorksheetFullDataToWorksheet() : List<Worksheet> {
+    return map {
+        Worksheet(
+            guid = it.guid,
+            counterpart = Counterpart(it.guidCounterpart,it.nameCounterpart),
+            date = it.date,
+            description = it.description,
+            duration = it.duration
+
+        )
+    }
+}
+
 

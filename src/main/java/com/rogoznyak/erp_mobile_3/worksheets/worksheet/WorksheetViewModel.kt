@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.*
 import com.rogoznyak.erp_mobile_3.MyCustomApplication
 import com.rogoznyak.erp_mobile_3.domain.Counterpart
+import com.rogoznyak.erp_mobile_3.domain.Worksheet
 import com.rogoznyak.erp_mobile_3.network.TodoRepository
 import com.rogoznyak.erp_mobile_3.network.UpdateStatus
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,16 @@ class WorksheetViewModel : ViewModel() {
 
     init {
         MyCustomApplication.mAppComponent.inject(this)
+    }
+
+    private val _worksheetData = MutableLiveData<Worksheet>()
+    val worksheetData: LiveData<Worksheet>
+        get() = _worksheetData
+
+    fun setWorksheetData(guid: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _worksheetData.postValue(TodoRepository().getWorksheetByGuid(guid))
+        }
     }
 
     // Navigation
@@ -63,7 +74,7 @@ class WorksheetViewModel : ViewModel() {
     }
 
     // Date
-    private var _date = SimpleDateFormat("dd.MM.yy hh:mm:ss").format(Date())
+    private var _date = SimpleDateFormat("dd.MM.yyyy hh:mm:ss").format(Date())
     val date : String
         get() = _date
 

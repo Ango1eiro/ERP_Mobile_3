@@ -11,6 +11,7 @@ import com.rogoznyak.erp_mobile_3.database.*
 import com.rogoznyak.erp_mobile_3.domain.Contact
 import com.rogoznyak.erp_mobile_3.domain.Counterpart
 import com.rogoznyak.erp_mobile_3.domain.User
+import com.rogoznyak.erp_mobile_3.domain.Worksheet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*
@@ -100,6 +101,14 @@ class TodoRepository {
         return counterpart.transform()
     }
 
+    suspend fun getWorksheetByGuid(guid: Long) : Worksheet {
+        val worksheet: DatabaseWorksheetFullData
+        withContext(Dispatchers.IO){
+            worksheet = getDatabase(appContext).AppDao.getWorksheetFullDataByGuid(guid)
+        }
+        return worksheet.transform()
+    }
+
     suspend fun getTodo(id: Int) = client.getTodoTest()
 
     suspend fun updateUserList(){
@@ -141,6 +150,26 @@ class TodoRepository {
 
     suspend fun sendWorksheet(networkWorksheet: NetworkWorksheet) : Todo {
         return client.sendWorksheet(networkWorksheet)
+    }
+
+    suspend fun sendWorksheets() : List<Todo> {
+        val todoList = mutableListOf<Todo>()
+        val worksheetsList = withContext(Dispatchers.IO){getDatabase(appContext).AppDao.getWorksheetsListBlocking()}
+            for (worksheet in worksheetsList) {
+                var todo = sendWorksheet(
+                    NetworkWorksheet(
+                        worksheet.date,
+                        worksheet.guidCounterpart,
+                        worksheet.duration,
+                        worksheet.description
+                    )
+                )
+                if (todo.title == "Success") {
+                    getDatabase(appContext).AppDao.deleteWorksheetByGuid(worksheet.guid)
+                }
+                todoList.add(todo)
+            }
+        return todoList
     }
 
     suspend fun saveWorksheet(databaseWorksheet: DatabaseWorksheet) {

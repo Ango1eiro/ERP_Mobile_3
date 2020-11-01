@@ -19,6 +19,7 @@ import com.rogoznyak.erp_mobile_3.R
 import com.rogoznyak.erp_mobile_3.Utils.MaskWatcher
 import com.rogoznyak.erp_mobile_3.database.DatabaseWorksheet
 import com.rogoznyak.erp_mobile_3.databinding.WorksheetFragmentBinding
+import com.rogoznyak.erp_mobile_3.domain.Worksheet
 import com.rogoznyak.erp_mobile_3.network.NetworkWorksheet
 import com.rogoznyak.erp_mobile_3.network.TodoRepository
 import com.rogoznyak.erp_mobile_3.search.SearchType
@@ -27,6 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 
 class WorksheetFragment : Fragment() {
@@ -53,6 +55,23 @@ class WorksheetFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(WorksheetViewModel::class.java)
         binding.viewModel = viewModel
 
+        // Retrievng args, if any exist
+        val arguments = WorksheetFragmentArgs.fromBundle(requireArguments())
+        if (arguments.guidWorksheet.equals(0L)) {
+            // Nothing happens
+        } else {
+            viewModel.setWorksheetData(arguments.guidWorksheet)
+        }
+
+        viewModel.worksheetData.observe(viewLifecycleOwner,
+            Observer<Worksheet> { worksheet ->
+                binding.editTextDate.setText(worksheet.date)
+                binding.editTextDuration.setText(worksheet.duration)
+                binding.editTextDescription.setText(worksheet.description)
+                viewModel.setCounterpartByGuid(worksheet.counterpart.guid)
+
+            })
+
         // Initialising navigation and start to listen key
         val navController = findNavController()
         navController.currentBackStackEntry?.savedStateHandle?.getLiveData<String>("key")?.observe(viewLifecycleOwner,
@@ -77,7 +96,7 @@ class WorksheetFragment : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.fab.visibility = View.GONE
                     uiScope.launch(Dispatchers.IO) {
-                        val todo = TodoRepository().sendWorksheet(NetworkWorksheet(viewModel.counterpart.value!!.guid,binding.editTextDuration.text.toString(),binding.editTextDescription.text.toString()))
+                        val todo = TodoRepository().sendWorksheet(NetworkWorksheet((binding.editTextDate as EditText).text.toString(),viewModel.counterpart.value!!.guid,binding.editTextDuration.text.toString(),binding.editTextDescription.text.toString()))
                         viewModel.setWorksheetStatus(todo.title)
                         viewModel.worksheetSent()
                     }
@@ -97,7 +116,12 @@ class WorksheetFragment : Fragment() {
             Observer<Boolean> { save ->
                 if (save) {
                     uiScope.launch(Dispatchers.IO) {
-                    TodoRepository().saveWorksheet(DatabaseWorksheet("s1d",viewModel.counterpart.value!!.guid,binding.editTextDescription.text.toString(),(binding.editTextDate as EditText).text.toString(),binding.editTextDuration.text.toString()))
+                        var guid = 0L
+                        if (viewModel.worksheetData.value != null) {
+                            guid = viewModel.worksheetData.value!!.guid
+                        }
+
+                        TodoRepository().saveWorksheet(DatabaseWorksheet(guid,viewModel.counterpart.value!!.guid,binding.editTextDescription.text.toString(),(binding.editTextDate as EditText).text.toString(),binding.editTextDuration.text.toString()))
                     }
                 }
 

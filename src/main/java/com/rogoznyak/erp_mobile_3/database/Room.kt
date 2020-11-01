@@ -48,6 +48,22 @@ interface AppDao {
     @Query("select * from DatabaseCounterpart where guid = :text")
     fun getCounterpartByGuid(text:String): DatabaseCounterpart
 
+    @Query("select * from DatabaseWorksheet")
+    fun getWorksheetsList(): LiveData<List<DatabaseWorksheet>>
+
+    @Query("select * from DatabaseWorksheet")
+    fun getWorksheetsListBlocking(): List<DatabaseWorksheet>
+
+    @Query("select DatabaseWorksheet.guid, DatabaseWorksheet.description, DatabaseWorksheet.date, DatabaseWorksheet.duration, DatabaseWorksheet.guidCounterpart, DatabaseCounterpart.name as nameCounterpart"
+            +" from DatabaseWorksheet,DatabaseCounterpart"
+            +" where DatabaseWorksheet.guidCounterpart = DatabaseCounterpart.guid")
+    fun getWorksheetsListFullData(): LiveData<List<DatabaseWorksheetFullData>>
+
+    @Query("select DatabaseWorksheet.guid, DatabaseWorksheet.description, DatabaseWorksheet.date, DatabaseWorksheet.duration, DatabaseWorksheet.guidCounterpart, DatabaseCounterpart.name as nameCounterpart"
+            +" from DatabaseWorksheet,DatabaseCounterpart"
+            +" where DatabaseWorksheet.guidCounterpart = DatabaseCounterpart.guid and DatabaseWorksheet.guid = :text")
+    fun getWorksheetFullDataByGuid(text:Long): DatabaseWorksheetFullData
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg task: DatabaseTask)
 
@@ -123,9 +139,12 @@ interface AppDao {
     @Update
     fun update(entity: DatabaseUser)
 
+    @Query("DELETE from DatabaseWorksheet WHERE DatabaseWorksheet.guid = :text")
+    fun deleteWorksheetByGuid(text: Long)
+
 }
 
-@Database(entities = [DatabaseTask::class,DatabaseWorksheet::class,DatabaseCounterpart::class,DatabaseContact::class,DatabaseUser::class], version = 2)
+@Database(entities = [DatabaseTask::class,DatabaseWorksheet::class,DatabaseCounterpart::class,DatabaseContact::class,DatabaseUser::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract val AppDao: AppDao
 }

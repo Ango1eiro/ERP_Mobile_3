@@ -14,8 +14,10 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-                android:background="?attr/colorPrimaryDark">
+                android:theme="@style/AppActionBar"
+                android:background="?attr/colorPrimary"
+
+                >
             </androidx.appcompat.widget.Toolbar>
 
             <fragment

@@ -31,9 +31,8 @@ data class Task(val guid: String,
                  val date: String) {
 }
 
-data class Worksheet(val guid: String,
+data class Worksheet(val guid: Long,
                      val counterpart: Counterpart,
-                     val user: User,
                      val description: String,
                      val date: String,
                      val duration: String) {

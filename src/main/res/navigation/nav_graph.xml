@@ -40,6 +40,10 @@
         <action
             android:id="@+id/action_worksheetFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <argument
+            android:name="guidWorksheet"
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

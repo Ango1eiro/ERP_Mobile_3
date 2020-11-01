@@ -8,8 +8,8 @@
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/paper_white">
+        android:layout_height="match_parent">
+<!--        android:background="@drawable/paper_white">-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -22,7 +22,7 @@
 
             <EditText
                 android:id="@+id/editText_Date"
-                android:layout_width="154dp"
+                android:layout_width="168dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
@@ -30,7 +30,8 @@
                 android:hint="Date"
                 android:inputType="date"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="01.01.0001 00:00:00"/>
 
             <EditText
                 android:id="@+id/editText_Counterpart"
@@ -107,6 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/spacing_normal"
+            android:backgroundTint="@color/secondaryLightColor"
 
             android:onClick="@{() -> viewModel.FABclicked()}"
             android:src="@drawable/ic_check_24px" />

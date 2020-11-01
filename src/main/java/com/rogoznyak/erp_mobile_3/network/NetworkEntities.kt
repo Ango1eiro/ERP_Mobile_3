@@ -7,6 +7,7 @@ data class NetworkContact(
     val phone: String)
 
 data class NetworkWorksheet(
+    val date: String,
     val counterpart: String,
     val duration: String,
     val description: String
