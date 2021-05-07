@@ -5,15 +5,18 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.rogoznyak.erp_mobile_3.MyCustomApplication
 import com.rogoznyak.erp_mobile_3.R
 import com.rogoznyak.erp_mobile_3.Utils.MaskWatcher
@@ -42,7 +45,7 @@ class TaskFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.editTextDate.clearFocus()
+//        binding.textFieldDate.clearFocus()
     }
 
 
@@ -69,10 +72,10 @@ class TaskFragment : Fragment() {
         viewModel.taskData.observe(viewLifecycleOwner,
             Observer<Task> { task ->
                 if (!taskDataObserved) {
-                    binding.editTextDate.setText(task.date)
-                    binding.editTextUser.setText(task.user.name)
-                    binding.editTextDescription.setText(task.description)
-                    binding.editTextUser.setText(task.user.name)
+                    binding.textFieldDate.editText?.setText(task.date)
+                    binding.textFieldUser.editText?.setText(task.user.name)
+                    binding.textFieldDescription.editText?.setText(task.description)
+                    binding.textFieldUser.editText?.setText(task.user.name)
                     viewModel.setCounterpartByGuid(task.counterpart.guid)
                     viewModel.setUserByGuid(task.user.guid)
                     taskDataObserved = true
@@ -113,16 +116,15 @@ class TaskFragment : Fragment() {
         viewModel.taskSent.observe(viewLifecycleOwner,
             Observer<Boolean> { isSent ->
                 if (isSent == true) {
-                    binding.textTaskStatus.setText(getString(R.string.status_in_progress))
                     binding.progressBar.visibility = View.VISIBLE
                     binding.fab.visibility = View.GONE
                     uiScope.launch(Dispatchers.IO) {
                         try {
                             val todo = TodoRepository().sendTask(
-                                NetworkTask(date = binding.editTextDate.text.toString(),
+                                NetworkTask(date = binding.textFieldDate.editText?.text.toString(),
                                     counterpart = viewModel.counterpart.value!!.guid,
                                     user = viewModel.user.value!!.guid,
-                                    description = binding.editTextDescription.text.toString()))
+                                    description = binding.textFieldDescription.editText?.text.toString()))
                             viewModel.setTaskStatus(todo.title)
 
                         } catch (t: Throwable) {
@@ -140,9 +142,9 @@ class TaskFragment : Fragment() {
 
         viewModel.taskStatus.observe(viewLifecycleOwner,
             Observer<String> { text ->
-                    binding.textTaskStatus.setText(text)
-                    binding.progressBar.visibility = View.GONE
-                    binding.fab.visibility = View.VISIBLE
+                Snackbar.make(binding.root,text,Snackbar.LENGTH_LONG).show()
+                binding.progressBar.visibility = View.GONE
+                binding.fab.visibility = View.VISIBLE
 
             })
 
@@ -159,19 +161,19 @@ class TaskFragment : Fragment() {
                             DatabaseTask(guid,
                                 viewModel.counterpart.value!!.guid,
                                 viewModel.user.value!!.guid,
-                                binding.editTextDescription.text.toString(),
-                                (binding.editTextDate as EditText).text.toString()))
+                                binding.textFieldDescription.editText?.text.toString(),
+                                binding.textFieldDate.editText?.text.toString()))
                     }
                 }
 
 
             })
 
-        viewModel.counterpart.observe(viewLifecycleOwner, Observer { counterpart -> binding.editTextCounterpart.setText(counterpart.name) })
+        viewModel.counterpart.observe(viewLifecycleOwner, Observer { counterpart -> binding.textFieldCounterpart.editText?.setText(counterpart.name) })
 
-        viewModel.user.observe(viewLifecycleOwner, Observer { user -> binding.editTextUser.setText(user.name) })
+        viewModel.user.observe(viewLifecycleOwner, Observer { user -> binding.textFieldUser.editText?.setText(user.name) })
 
-        binding.editTextDate.setText(viewModel.date)
+        binding.textFieldDate.editText?.setText(viewModel.date)
 
 //        binding.editTextUser.addTextChangedListener(MaskWatcher("##:##"))
 //        binding.editTextDuration.filters = arrayOf<InputFilter>(LengthFilter(5))
