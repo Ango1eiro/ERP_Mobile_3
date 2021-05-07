@@ -15,14 +15,24 @@ class WorksheetsViewModel(val database: AppDao, application: Application)
     val navigateToNewWorksheet: LiveData<Boolean>
         get() = _navigateToNewWorksheet
 
+    private var _msg =""
+    fun getMsg() = _msg
+
     private val _syncIsOn = MutableLiveData<Boolean>()
     val syncIsOn: LiveData<Boolean>
         get() = _syncIsOn
     fun onSyncClicked() {
         _syncIsOn.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            val todoList = TodoRepository().sendWorksheets()
-            _syncIsOn.postValue(false)
+            _msg = ""
+            try {
+                val todoList = TodoRepository().sendWorksheets()
+                _msg = "Success"
+            } catch (t: Throwable) {
+                _msg = t.localizedMessage
+            } finally {
+                _syncIsOn.postValue(false)
+            }
         }
 
     }

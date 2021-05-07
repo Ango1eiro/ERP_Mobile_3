@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.rogoznyak.erp_mobile_3.R
 import com.rogoznyak.erp_mobile_3.database.getDatabase
 import com.rogoznyak.erp_mobile_3.database.transformFromDatabaseCounterpartToCounterpart
@@ -77,6 +78,7 @@ class WorksheetsFragment : Fragment() {
                 syncAnimation.start()
             } else {
                 syncAnimation.stop()
+                Snackbar.make(binding.root,viewModel.getMsg(), Snackbar.LENGTH_LONG).show()
             }
 
         })
