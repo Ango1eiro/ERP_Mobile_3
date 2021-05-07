@@ -12,11 +12,18 @@ import androidx.preference.PreferenceFragmentCompat
 import com.rogoznyak.erp_mobile_3.R
 import com.rogoznyak.erp_mobile_3.database.getDatabase
 import com.rogoznyak.erp_mobile_3.network.UpdateStatus
+import kotlinx.coroutines.*
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
     lateinit var viewModel: SettingsFragmentViewModel
+
+    val job = Job()
+    val uiScope = CoroutineScope(Dispatchers.Main + job)
+    val coroutineExceptionHandler = CoroutineExceptionHandler{CoroutineContext, throwable ->
+        throwable.printStackTrace()
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
@@ -42,30 +49,46 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val checkConnectionPreference: Preference? = findPreference("checkConnection")
         checkConnectionPreference?.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                checkConnectionPreference?.setSummary("Waiting for status")
-                viewModel.firstTodo.observe(this, Observer {
-                    checkConnectionPreference?.setSummary(it.title)
-                })
+                checkConnectionPreference?.setSummary(R.string.waiting_for_status)
+                viewModel.setConnectionStatusNeedsUpdate(true)
+
             true
         }
+
+        viewModel.connectionStatusNeedsUpdate.observe(this, Observer {
+            if (it) uiScope.launch() {
+                try {
+                    checkConnectionPreference?.summary = viewModel.getConnectionStatus()
+                } catch (t: Throwable) {
+                    t.printStackTrace()
+                    checkConnectionPreference?.summary = t.localizedMessage
+                } finally {
+                    viewModel.setConnectionStatusNeedsUpdate(false)
+                }
+            }
+        })
 
         // Finding checkConnection preference and assigning it click listener
         val updateCataloguesPreference: Preference? = findPreference("updateCatalogues")
         updateCataloguesPreference?.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                updateCataloguesPreference?.setSummary("Starting download")
-                viewModel.updateStatus.observe(this, Observer {
-                    when (it)
-                    {
-                        UpdateStatus.DONE -> {
-                            updateCataloguesPreference?.setSummary("Done")
-                        }
-                        UpdateStatus.INPROGRESS -> updateCataloguesPreference?.setSummary("In progress")
-                        UpdateStatus.ERROR -> updateCataloguesPreference?.setSummary("Error")
-                    }
-                })
+                updateCataloguesPreference?.summary = ("In progress")
+                viewModel.setUpdateStatusNeedsUpdate(true)
                 true
             }
+
+        viewModel.updateStatusNeedsUpdate.observe(this, Observer{
+            if (it) uiScope.launch {
+                try {
+                    updateCataloguesPreference?.summary = viewModel.getUpdateStatus().toString()
+                } catch (t: Throwable) {
+                    updateCataloguesPreference?.summary = t.localizedMessage
+                    t.printStackTrace()
+                } finally {
+                    viewModel.setUpdateStatusNeedsUpdate(false)
+                }
+            }
+        })
 
 
 

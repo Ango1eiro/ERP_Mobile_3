@@ -4,29 +4,29 @@
 
     <SwitchPreferenceCompat
         app:key="enableFabOnMain"
-        app:title="Enable FAB on the home screen"/>
+        app:title="@string/setting_enable_fab_on_main_screen"/>
 
     <SwitchPreferenceCompat
         app:key="onlineMode"
-        app:title="Enable online mode"/>
+        app:title="@string/setting_online_mode"/>
 
     <Preference
         app:key="checkConnection"
-        app:title="Check connection"
-        app:summary="Connection status"/>
+        app:title="@string/setting_check_connection"
+        app:summary="@string/setting_check_connection_status"/>
     <Preference
         app:key="updateCatalogues"
-        app:title="Update catalogues"
-        app:summary="Update status"/>
+        app:title="@string/setting_update_catalogues"
+        app:summary="@string/setting_update_catalogues_status"/>
     <PreferenceCategory
-        android:title="Connection settings">
+        android:title="@string/setting_connection_settings">
 
         <EditTextPreference
-            android:defaultValue="User"
+            android:defaultValue="@string/setting_user_hint"
             android:key="login"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Username"
+            android:title="@string/setting_username_hint"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="12345"
@@ -35,13 +35,13 @@
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="**********"
-            android:title="Pasword" />
+            android:title="@string/setting_password_hint" />
         <EditTextPreference
             android:defaultValue="http://172.31.255.85:80/"
             android:key="host"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Host address"
+            android:title="@string/setting_host_address"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 

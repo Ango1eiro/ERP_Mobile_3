@@ -25,7 +25,6 @@ import com.rogoznyak.erp_mobile_3.search.SleepNightListener
 
 class WorksheetsFragment : Fragment() {
 
-
     private lateinit var viewModel: WorksheetsViewModel
 
     override fun onCreateView(

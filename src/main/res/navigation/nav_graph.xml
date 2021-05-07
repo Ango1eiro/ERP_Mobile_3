@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.rogoznyak.erp_mobile_3.home.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="@string/label_home_fragment" >
         <action
             android:id="@+id/action_homeFragment_to_tasksFragment"
             app:destination="@id/tasksFragment" />
@@ -20,11 +20,15 @@
     <fragment
         android:id="@+id/tasksFragment"
         android:name="com.rogoznyak.erp_mobile_3.tasks.TasksFragment"
-        android:label="TasksFragment" />
+        android:label="@string/label_tasks_fragment" >
+        <action
+            android:id="@+id/action_tasksFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
+    </fragment>
     <fragment
         android:id="@+id/worksheetsFragment"
         android:name="com.rogoznyak.erp_mobile_3.worksheets.WorksheetsFragment"
-        android:label="WorksheetsFragment" >
+        android:label="@string/label_worksheets_fragment" >
         <action
             android:id="@+id/action_worksheetsFragment_to_worksheetFragment"
             app:destination="@id/worksheetFragment" />
@@ -32,11 +36,11 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.rogoznyak.erp_mobile_3.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="@string/label_settings_fragment" />
     <fragment
         android:id="@+id/worksheetFragment"
         android:name="com.rogoznyak.erp_mobile_3.worksheets.worksheet.WorksheetFragment"
-        android:label="WorksheetFragment" >
+        android:label="@string/label_worksheet_fragment" >
         <action
             android:id="@+id/action_worksheetFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -48,9 +52,28 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.rogoznyak.erp_mobile_3.search.SearchFragment"
-        android:label="SearchFragment" >
+        android:label="@string/label_search_fragment" >
         <argument
             android:name="searchType"
             app:argType="com.rogoznyak.erp_mobile_3.search.SearchType" />
     </fragment>
+    <fragment
+        android:id="@+id/taskFragment"
+        android:name="com.rogoznyak.erp_mobile_3.tasks.task.TaskFragment"
+        android:label="TaskFragment" >
+        <argument
+            android:name="guidTask"
+            app:argType="long"
+            android:defaultValue="0L" />
+        <action
+            android:id="@+id/action_taskFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_taskFragment_to_searchForUserFragment"
+            app:destination="@id/searchForUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchForUserFragment"
+        android:name="com.rogoznyak.erp_mobile_3.search.searchForUser.SearchForUserFragment"
+        android:label="SearchForUserFragment" />
 </navigation>

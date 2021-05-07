@@ -21,6 +21,14 @@ fun DatabaseTask.transform() = Task(
     date = this.date
 )
 
+fun DatabaseTaskFullData.transform() = Task(
+    guid = this.guid,
+    counterpart = Counterpart(this.guidCounterpart,this.nameCounterpart),
+    user = User(this.guidUser, this.nameUser),
+    description = this.description,
+    date = this.date
+)
+
 fun DatabaseWorksheetFullData.transform() = Worksheet(
     guid = this.guid,
     counterpart = Counterpart(this.guidCounterpart,this.nameCounterpart),
@@ -41,9 +49,22 @@ fun User.transform() = DatabaseUser(
     guid = this.guid,
     name = this.name)
 
+fun DatabaseUser.transform() = User(
+    guid = this.guid,
+    name = this.name)
+
 fun List<User>.transformUser() : List<DatabaseUser> {
     return map{
         DatabaseUser(
+            guid = it.guid,
+            name = it.name
+        )
+    }
+}
+
+fun List<DatabaseUser>.transformFromDatabaseUserToUser() : List<User> {
+    return map{
+        User(
             guid = it.guid,
             name = it.name
         )
@@ -100,7 +121,18 @@ fun List<DatabaseWorksheetFullData>.transformFromDatabaseWorksheetFullDataToWork
             date = it.date,
             description = it.description,
             duration = it.duration
+        )
+    }
+}
 
+fun List<DatabaseTaskFullData>.transformFromDatabaseTaskFullDataToTask() : List<Task> {
+    return map {
+        Task(
+            guid = it.guid,
+            counterpart = Counterpart(it.guidCounterpart,it.nameCounterpart),
+            date = it.date,
+            description = it.description,
+            user = User(it.guidUser,it.nameUser)
         )
     }
 }

@@ -18,12 +18,10 @@
             app:layout_constraintGuide_end="@dimen/spacing_normal"
             tools:context=".home.HomeFragment">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tasks"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatTextView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/itemList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -32,7 +30,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/spacing_normal"
-            android:onClick="@{() -> 1}"/>
+            android:src="@drawable/ic_add_24px"
+            android:backgroundTint="@color/secondaryLightColor"
+            android:onClick="@{() -> viewModel.onFabClicked()}"/>
+
+        <ImageView
+            android:id="@+id/syncImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            android:layout_margin="@dimen/spacing_normal"
+            android:onClick="@{() -> viewModel.onSyncClicked()}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

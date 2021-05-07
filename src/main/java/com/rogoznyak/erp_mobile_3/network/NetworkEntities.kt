@@ -12,3 +12,10 @@ data class NetworkWorksheet(
     val duration: String,
     val description: String
 )
+
+data class NetworkTask(
+    val date: String,
+    val counterpart: String,
+    val user: String,
+    val description: String
+)

@@ -55,6 +55,8 @@ class WorksheetFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(WorksheetViewModel::class.java)
         binding.viewModel = viewModel
 
+        var worksheetDataObserved = false
+
         // Retrievng args, if any exist
         val arguments = WorksheetFragmentArgs.fromBundle(requireArguments())
         if (arguments.guidWorksheet.equals(0L)) {
@@ -65,10 +67,13 @@ class WorksheetFragment : Fragment() {
 
         viewModel.worksheetData.observe(viewLifecycleOwner,
             Observer<Worksheet> { worksheet ->
-                binding.editTextDate.setText(worksheet.date)
-                binding.editTextDuration.setText(worksheet.duration)
-                binding.editTextDescription.setText(worksheet.description)
-                viewModel.setCounterpartByGuid(worksheet.counterpart.guid)
+                if (!worksheetDataObserved) {
+                    binding.editTextDate.setText(worksheet.date)
+                    binding.editTextDuration.setText(worksheet.duration)
+                    binding.editTextDescription.setText(worksheet.description)
+                    viewModel.setCounterpartByGuid(worksheet.counterpart.guid)
+                    worksheetDataObserved = true
+                }
 
             })
 
@@ -96,9 +101,24 @@ class WorksheetFragment : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.fab.visibility = View.GONE
                     uiScope.launch(Dispatchers.IO) {
-                        val todo = TodoRepository().sendWorksheet(NetworkWorksheet((binding.editTextDate as EditText).text.toString(),viewModel.counterpart.value!!.guid,binding.editTextDuration.text.toString(),binding.editTextDescription.text.toString()))
-                        viewModel.setWorksheetStatus(todo.title)
-                        viewModel.worksheetSent()
+                        try {
+                            val todo = TodoRepository().sendWorksheet(
+                                NetworkWorksheet(
+                                    (binding.editTextDate as EditText).text.toString(),
+                                    viewModel.counterpart.value!!.guid,
+                                    binding.editTextDuration.text.toString(),
+                                    binding.editTextDescription.text.toString()
+                                )
+                            )
+                            viewModel.setWorksheetStatus(todo.title)
+                        } catch (t:Throwable)
+                        {
+                            viewModel.setWorksheetStatus(t.toString())
+                            t.printStackTrace()
+                        } finally {
+                            viewModel.worksheetSent()
+                        }
+
                     }
 
                 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ERP Mobile 3.0</string>
+    <string name="tasks_name">Задачи</string>
+    <string name="worksheets_name">ЛУРВы</string>
+    <string name="settings_name">Настройки</string>
+    <string name="status_in_progress">В процессе...</string>
+    <string name="date_hint">Дата</string>
+    <string name="counterpart_hint">Контрагент</string>
+    <string name="length_hint">Время</string>
+    <string name="description_hint">Описание</string>
+    <string name="status_hint">Статус</string>
+    <string name="setting_enable_fab_on_main_screen">Кнопка действия на начальном экране</string>
+    <string name="setting_online_mode">Онлайн режим</string>
+    <string name="setting_check_connection">Проверить соединение</string>
+    <string name="setting_check_connection_status">Статус соединения</string>
+    <string name="setting_update_catalogues">Обновить справочники</string>
+    <string name="setting_update_catalogues_status">Статус обновления справочников</string>
+    <string name="setting_connection_settings">Настройки соединения</string>
+    <string name="setting_user_hint">Пользователь</string>
+    <string name="setting_username_hint">Имя пользователя</string>
+    <string name="setting_password_hint">Пароль</string>
+    <string name="setting_host_address">Адрес сервера</string>
+    <string name="waiting_for_status">Ожидание статуса...</string>
+    <string name="starting_download">Начало загрузки</string>
+    <string name="update_status_done">Выполнено</string>
+    <string name="update_status_in_progress">В процессе...</string>
+    <string name="update_status_error">Ошибка</string>
+    <string name="label_home_fragment">Начальный экран</string>
+    <string name="label_settings_fragment">Настройки</string>
+    <string name="label_tasks_fragment">Задачи</string>
+    <string name="label_worksheets_fragment">ЛУРВы</string>
+    <string name="label_worksheet_fragment">ЛУРВ</string>
+    <string name="label_search_fragment">Поиск</string>
+    <string name="user_hint">Ответственный</string>
+    <string name="user_name_default">Имя по умолчанию</string>
+</resources>

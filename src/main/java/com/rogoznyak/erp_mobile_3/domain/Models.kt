@@ -24,7 +24,7 @@ package com.rogoznyak.erp_mobile_3.domain
  *
  */
 
-data class Task(val guid: String,
+data class Task(val guid: Long,
                  val counterpart: Counterpart,
                  val user: User,
                  val description: String,

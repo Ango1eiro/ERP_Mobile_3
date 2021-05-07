@@ -5,9 +5,11 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.preference.PreferenceManager
 import com.google.gson.GsonBuilder
+import com.rogoznyak.erp_mobile_3.home.HomeViewModel
 import com.rogoznyak.erp_mobile_3.network.MyCredentials
 import com.rogoznyak.erp_mobile_3.network.TodoRepository
 import com.rogoznyak.erp_mobile_3.search.SearchFragment
+import com.rogoznyak.erp_mobile_3.tasks.task.TaskViewModel
 import com.rogoznyak.erp_mobile_3.worksheets.worksheet.WorksheetFragment
 import com.rogoznyak.erp_mobile_3.worksheets.worksheet.WorksheetViewModel
 import dagger.Component
@@ -56,7 +58,6 @@ class AppModule (val mApplication: Application ) {
 class NetModule {
     // Dagger will only look for methods annotated with @Provides
     @Provides
-    @Singleton
     fun  // Application reference must come from AppModule.class
             providesSharedPreferences(application: Application?): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(application)
@@ -69,6 +70,9 @@ interface AppComponent {
     fun inject(myCredentials: MyCredentials)
     fun inject(repository: TodoRepository)
     fun inject(worksheetViewModel: WorksheetViewModel)
+    fun inject(taskViewModel: TaskViewModel)
+    fun inject(homeViewModel: HomeViewModel)
+
 }
 
 

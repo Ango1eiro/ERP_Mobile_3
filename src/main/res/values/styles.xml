@@ -15,4 +15,8 @@
         <item name="android:titleTextColor">@color/primaryTextColor</item>
     </style>
 
+    <style name="TextForListItemWorksheet">
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
 </resources>

@@ -38,19 +38,28 @@ import com.rogoznyak.erp_mobile_3.domain.Worksheet
     )
 ])
 data class DatabaseTask constructor(
-    @PrimaryKey
-    val guid: String,
+    @PrimaryKey(autoGenerate = true)
+    val guid: Long,
     val guidCounterpart: String,
     val guidUser: String,
     val description: String,
     val date: String)
 
 data class DatabaseTaskWithNames constructor(
-    val guid: String,
+    val guid: Long,
     val counterpart: String,
     val user: String,
     val description: String,
     val date: String)
+
+data class DatabaseTaskFullData(
+    val guid: Long,
+    val guidCounterpart: String,
+    val nameCounterpart: String,
+    val description: String,
+    val date: String,
+    val guidUser: String,
+    val nameUser: String)
 
 
 @Entity(foreignKeys = [

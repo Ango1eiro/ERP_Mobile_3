@@ -3,9 +3,17 @@ package com.rogoznyak.erp_mobile_3.worksheets
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.rogoznyak.erp_mobile_3.domain.Counterpart
+import com.rogoznyak.erp_mobile_3.domain.User
 
 @BindingAdapter("counterpart")
-fun TextView.setСounterpart(item: Counterpart?) {
+fun TextView.setCounterpart(item: Counterpart?) {
+    item?.let {
+        text = it.name
+    }
+}
+
+@BindingAdapter("user")
+fun TextView.setUser(item: User?) {
     item?.let {
         text = it.name
     }

@@ -34,7 +34,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:sleepQualityString="@{counterpart}"
-            tools:text="Counterpart name" />
+            tools:text="Counterpart name АБВ"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

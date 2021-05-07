@@ -28,10 +28,14 @@ interface AppDao {
     @Query("select * from DatabaseTask")
     fun getTasks(): LiveData<List<DatabaseTask>>
 
-    @Query("select DatabaseTask.guid, DatabaseTask.description, DatabaseTask.date, DatabaseCounterpart.name as counterpart, DatabaseUser.name as user"
+    @Query("select * from DatabaseTask")
+    fun getTasksListBlocking(): List<DatabaseTask>
+
+    @Query("select DatabaseTask.guid, DatabaseTask.description, DatabaseTask.date, " +
+            "DatabaseCounterpart.name as nameCounterpart, DatabaseUser.name as nameUser,DatabaseTask.guidCounterpart as guidCounterpart, DatabaseTask.guidUser as guidUser"
             + " from DatabaseTask,DatabaseCounterpart,DatabaseUser"
             + " where DatabaseTask.guidCounterpart = DatabaseCounterpart.guid and DatabaseTask.guidUser = DatabaseUser.guid")
-    fun getTasksWithNames(): LiveData<List<DatabaseTaskWithNames>>
+    fun getTasksListFullData(): LiveData<List<DatabaseTaskFullData>>
 
     @Query("select * from DatabaseUser")
     fun getUsers(): LiveData<List<DatabaseUser>>
@@ -48,6 +52,9 @@ interface AppDao {
     @Query("select * from DatabaseCounterpart where guid = :text")
     fun getCounterpartByGuid(text:String): DatabaseCounterpart
 
+    @Query("select * from DatabaseUser where guid = :text")
+    fun getUserByGuid(text:String): DatabaseUser
+
     @Query("select * from DatabaseWorksheet")
     fun getWorksheetsList(): LiveData<List<DatabaseWorksheet>>
 
@@ -63,6 +70,11 @@ interface AppDao {
             +" from DatabaseWorksheet,DatabaseCounterpart"
             +" where DatabaseWorksheet.guidCounterpart = DatabaseCounterpart.guid and DatabaseWorksheet.guid = :text")
     fun getWorksheetFullDataByGuid(text:Long): DatabaseWorksheetFullData
+
+    @Query("select DatabaseTask.guid, DatabaseTask.description, DatabaseTask.date, DatabaseTask.guidUser, DatabaseTask.guidCounterpart, DatabaseCounterpart.name as nameCounterpart, DatabaseUser.name as nameUser"
+            +" from DatabaseTask,DatabaseCounterpart,DatabaseUser"
+            +" where DatabaseTask.guidCounterpart = DatabaseCounterpart.guid and DatabaseTask.guid = :text and DatabaseTask.guidUser = DatabaseUser.guid")
+    fun getTaskFullDataByGuid(text:Long): DatabaseTaskFullData
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg task: DatabaseTask)
@@ -142,9 +154,13 @@ interface AppDao {
     @Query("DELETE from DatabaseWorksheet WHERE DatabaseWorksheet.guid = :text")
     fun deleteWorksheetByGuid(text: Long)
 
+    @Query("DELETE from DatabaseTask WHERE DatabaseTask.guid = :text")
+    fun deleteTaskByGuid(text: Long)
+
+
 }
 
-@Database(entities = [DatabaseTask::class,DatabaseWorksheet::class,DatabaseCounterpart::class,DatabaseContact::class,DatabaseUser::class], version = 3)
+@Database(entities = [DatabaseTask::class,DatabaseWorksheet::class,DatabaseCounterpart::class,DatabaseContact::class,DatabaseUser::class], version = 5)
 abstract class AppDatabase : RoomDatabase() {
     abstract val AppDao: AppDao
 }
