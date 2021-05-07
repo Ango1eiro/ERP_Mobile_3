@@ -43,12 +43,6 @@ class TaskFragment : Fragment() {
     val job = Job()
     val uiScope = CoroutineScope(Dispatchers.Main + job)
 
-    override fun onResume() {
-        super.onResume()
-//        binding.textFieldDate.clearFocus()
-    }
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

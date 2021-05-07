@@ -20,85 +20,94 @@
             app:layout_constraintGuide_end="@dimen/spacing_normal"
             tools:context=".home.HomeFragment">
 
-            <EditText
-                android:id="@+id/editText_Date"
-                android:layout_width="172dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:ems="10"
-                android:hint="@string/date_hint"
-                android:inputType="date"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="01.01.0001 00:00:00"/>
-
-            <EditText
-                android:id="@+id/editText_Counterpart"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textFieldDate"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:clickable="true"
-                android:cursorVisible="false"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="@string/counterpart_hint"
-                android:inputType="none"
-                android:onClick="@{() -> viewModel.onButtonClicked()}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_Date" />
+                android:hint="@string/date_hint"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:id="@+id/editTextDuration"
-                android:layout_width="64dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:ems="10"
-                android:hint="@string/length_hint"
-                android:inputType="datetime"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_Counterpart" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/editTextDescription"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textFieldCounterpart"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:ems="10"
-                android:gravity="bottom"
+                android:hint="@string/counterpart_hint"
+                app:layout_constraintTop_toBottomOf="@+id/textFieldDate">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:onClick="@{() -> viewModel.onButtonClicked()}"
+                    android:inputType="textNoSuggestions"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textFieldDuration"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/length_hint"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:endIconDrawable="@android:drawable/ic_menu_recent_history"
+
+                app:endIconMode="custom"
+                app:layout_constraintTop_toBottomOf="@+id/textFieldCounterpart"
+                tools:layout_editor_absoluteX="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textFieldDurationE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="datetime" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textFieldDescription"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 android:hint="@string/description_hint"
-                android:inputType="textCapSentences|textMultiLine"
-                android:minLines="3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextDuration" />
+                app:layout_constraintTop_toBottomOf="@+id/textFieldDuration">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textFieldDescriptionE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences|textMultiLine|textNoSuggestions"
+                    android:minLines="3"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
                 android:indeterminate="true"
                 android:visibility="invisible"
+                android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textWorksheetStatus"
-                android:layout_width="72dp"
-                android:layout_height="18dp"
-                android:layout_marginStart="16dp"
-                android:alpha="0.6"
-                android:text="@string/status_hint"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textFieldDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

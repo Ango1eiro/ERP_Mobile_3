@@ -12,8 +12,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_KEYBOARD
+import com.google.android.material.timepicker.TimeFormat
 import com.rogoznyak.erp_mobile_3.MyCustomApplication
 import com.rogoznyak.erp_mobile_3.R
 import com.rogoznyak.erp_mobile_3.Utils.MaskWatcher
@@ -39,19 +44,14 @@ class WorksheetFragment : Fragment() {
     val job = Job()
     val uiScope = CoroutineScope(Dispatchers.Main + job)
 
-    override fun onResume() {
-        super.onResume()
-        binding.editTextDate.clearFocus()
-    }
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        // Initialising dataBinding and viewModel
+        // Initialising daataBinding and viewModel
         binding = WorksheetFragmentBinding.inflate(inflater)
+
         viewModel = ViewModelProviders.of(this).get(WorksheetViewModel::class.java)
         binding.viewModel = viewModel
 
@@ -68,9 +68,9 @@ class WorksheetFragment : Fragment() {
         viewModel.worksheetData.observe(viewLifecycleOwner,
             Observer<Worksheet> { worksheet ->
                 if (!worksheetDataObserved) {
-                    binding.editTextDate.setText(worksheet.date)
-                    binding.editTextDuration.setText(worksheet.duration)
-                    binding.editTextDescription.setText(worksheet.description)
+                    binding.textFieldDate.editText?.setText(worksheet.date)
+                    binding.textFieldDuration.editText?.setText(worksheet.duration)
+                    binding.textFieldDescription.editText?.setText(worksheet.description)
                     viewModel.setCounterpartByGuid(worksheet.counterpart.guid)
                     worksheetDataObserved = true
                 }
@@ -97,17 +97,16 @@ class WorksheetFragment : Fragment() {
         viewModel.worksheetSent.observe(viewLifecycleOwner,
             Observer<Boolean> { isSent ->
                 if (isSent == true) {
-                    binding.textWorksheetStatus.setText(getString(R.string.status_in_progress))
                     binding.progressBar.visibility = View.VISIBLE
                     binding.fab.visibility = View.GONE
                     uiScope.launch(Dispatchers.IO) {
                         try {
                             val todo = TodoRepository().sendWorksheet(
                                 NetworkWorksheet(
-                                    (binding.editTextDate as EditText).text.toString(),
+                                    binding.textFieldDate.editText?.text.toString(),
                                     viewModel.counterpart.value!!.guid,
-                                    binding.editTextDuration.text.toString(),
-                                    binding.editTextDescription.text.toString()
+                                    binding.textFieldDuration.editText?.text.toString(),
+                                    binding.textFieldDescription.editText?.text.toString()
                                 )
                             )
                             viewModel.setWorksheetStatus(todo.title)
@@ -126,7 +125,7 @@ class WorksheetFragment : Fragment() {
 
         viewModel.worksheetStatus.observe(viewLifecycleOwner,
             Observer<String> { text ->
-                    binding.textWorksheetStatus.setText(text)
+                    Snackbar.make(binding.root,text, Snackbar.LENGTH_LONG).show()
                     binding.progressBar.visibility = View.GONE
                     binding.fab.visibility = View.VISIBLE
 
@@ -141,23 +140,37 @@ class WorksheetFragment : Fragment() {
                             guid = viewModel.worksheetData.value!!.guid
                         }
 
-                        TodoRepository().saveWorksheet(DatabaseWorksheet(guid,viewModel.counterpart.value!!.guid,binding.editTextDescription.text.toString(),(binding.editTextDate as EditText).text.toString(),binding.editTextDuration.text.toString()))
+                        TodoRepository().saveWorksheet(
+                            DatabaseWorksheet(guid,viewModel.counterpart.value!!.guid,
+                                binding.textFieldDescription.editText?.text.toString(),
+                                binding.textFieldDate.editText?.text.toString(),
+                                binding.textFieldDuration.editText?.text.toString()))
                     }
                 }
 
 
             })
 
-        viewModel.counterpart.observe(viewLifecycleOwner, Observer { counterpart -> binding.editTextCounterpart.setText(counterpart.name) })
+        viewModel.counterpart.observe(viewLifecycleOwner, Observer { counterpart -> binding.textFieldCounterpart.editText?.setText(counterpart.name) })
 
-        binding.editTextDate.setText(viewModel.date)
+        binding.textFieldDate.editText?.setText(viewModel.date)
 
-        binding.editTextDuration.addTextChangedListener(MaskWatcher("##:##"))
-//        binding.editTextDuration.filters = arrayOf<InputFilter>(LengthFilter(5))
+        binding.textFieldDuration.editText?.addTextChangedListener(MaskWatcher("##:##"))
 
+        binding.textFieldDuration.setEndIconOnClickListener{ v ->
+            val picker = MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(0)
+                .setMinute(0)
+                .setInputMode(INPUT_MODE_KEYBOARD)
+                .build()
 
-
-
+            picker.addOnPositiveButtonClickListener { _ ->
+                val sTime = picker.hour.toString() + ":" + picker.minute.toString()
+                binding.textFieldDuration.editText?.setText(sTime)
+            }
+            picker.show(parentFragmentManager,"TAG")
+        }
 
         return binding.root
     }
