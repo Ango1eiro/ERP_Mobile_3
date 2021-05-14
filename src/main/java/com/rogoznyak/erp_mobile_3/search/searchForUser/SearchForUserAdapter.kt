@@ -12,11 +12,11 @@ import com.rogoznyak.erp_mobile_3.domain.User
 
 
 class SearchForUserAdapter(
-    context: Context?,
-    val userList: List<User>
+    context: Context?
 ) : BaseAdapter() {
 
     val inflater = LayoutInflater.from(context)
+    var userList = listOf<User>()
 
     override fun getCount(): Int = userList.size
 

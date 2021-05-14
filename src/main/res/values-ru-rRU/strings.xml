@@ -35,4 +35,5 @@
     <string name="user_hint">Ответственный</string>
     <string name="user_name_default">Имя по умолчанию</string>
     <string name="label_task_fragment">Задача</string>
+    <string name="title_search">Поиск</string>
 </resources>

@@ -40,6 +40,15 @@ interface AppDao {
     @Query("select * from DatabaseUser")
     fun getUsers(): LiveData<List<DatabaseUser>>
 
+    @Query("select * from DatabaseUser")
+    fun getRawUsers(): List<DatabaseUser>
+
+    @Query("select * from DatabaseUser where name LIKE '%' || :text  || '%' ")
+    fun getRawUsersWithFilter(text:String): List<DatabaseUser>
+
+    @Query("select * from DatabaseUser where name LIKE :text")
+    fun getUsersWithFilter(text:String): LiveData<List<DatabaseUser>>
+
     @Query("select COUNT(*) from DatabaseUser")
     fun getUsersQuantity(): Long
 
