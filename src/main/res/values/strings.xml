@@ -33,4 +33,5 @@
     <string name="label_search_fragment">Search</string>
     <string name="user_hint">User</string>
     <string name="user_name_default">Default user name</string>
+    <string name="label_task_fragment">Task</string>
 </resources>

@@ -60,11 +60,11 @@
     <fragment
         android:id="@+id/taskFragment"
         android:name="com.rogoznyak.erp_mobile_3.tasks.task.TaskFragment"
-        android:label="TaskFragment" >
+        android:label="@string/label_task_fragment">
         <argument
             android:name="guidTask"
-            app:argType="long"
-            android:defaultValue="0L" />
+            android:defaultValue="0L"
+            app:argType="long" />
         <action
             android:id="@+id/action_taskFragment_to_searchFragment"
             app:destination="@id/searchFragment" />

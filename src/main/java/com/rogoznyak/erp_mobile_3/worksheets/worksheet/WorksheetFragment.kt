@@ -169,7 +169,9 @@ class WorksheetFragment : Fragment() {
                 val sTime = picker.hour.toString() + ":" + picker.minute.toString()
                 binding.textFieldDuration.editText?.setText(sTime)
             }
-            picker.show(parentFragmentManager,"TAG")
+            picker.show(requireActivity().supportFragmentManager,"TAG")
+
+
         }
 
         return binding.root
