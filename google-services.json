@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "958167242902",
+    "project_id": "erp-mobile-a50e0",
+    "storage_bucket": "erp-mobile-a50e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958167242902:android:6c8390121c770516b90ab7",
+        "android_client_info": {
+          "package_name": "com.rogoznyak.erp_mobile_3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958167242902-cd85grved4mkssofub63sva2njo5am3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3wxmz6d5e66YKYJ1xnvF9ol1HbdZXJkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958167242902-cd85grved4mkssofub63sva2njo5am3q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
