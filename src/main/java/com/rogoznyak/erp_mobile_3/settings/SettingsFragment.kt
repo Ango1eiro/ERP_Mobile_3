@@ -11,6 +11,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.rogoznyak.erp_mobile_3.R
 import com.rogoznyak.erp_mobile_3.database.getDatabase
+import com.rogoznyak.erp_mobile_3.firebase.MyFirebaseMessagingService
 import com.rogoznyak.erp_mobile_3.network.UpdateStatus
 import kotlinx.coroutines.*
 
@@ -90,7 +91,32 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         })
 
+        val sendToken: Preference? = findPreference("sendToken")
+        sendToken?.onPreferenceClickListener =
+            Preference.OnPreferenceClickListener {
+              sendToken?.setSummary(R.string.waiting_for_status)
+                viewModel.setSendTokenNeedsUpdate(true)
 
+                true
+            }
+
+        viewModel.sendTokenNeedsUpdate.observe(this, Observer {
+            if (it) uiScope.launch() {
+                try {
+                    val myFB = MyFirebaseMessagingService()
+                    val token = myFB.getToken()
+                    if (token != null)
+                        sendToken?.summary = viewModel.sendToken(token).title
+                    else
+                        sendToken?.summary = "Token is null"
+                } catch (t: Throwable) {
+                    t.printStackTrace()
+                    sendToken?.summary = t.localizedMessage
+                } finally {
+                    viewModel.setSendTokenNeedsUpdate(false)
+                }
+            }
+        })
 
     }
 

@@ -36,4 +36,6 @@
     <string name="user_name_default">Имя по умолчанию</string>
     <string name="label_task_fragment">Задача</string>
     <string name="title_search">Поиск</string>
+    <string name="setting_send_token">Отправить токен</string>
+    <string name="setting_send_token_status">Статус отправки токена</string>
 </resources>

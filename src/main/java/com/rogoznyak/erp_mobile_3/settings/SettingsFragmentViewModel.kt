@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import com.rogoznyak.erp_mobile_3.firebase.MyFirebaseMessagingService
+import com.rogoznyak.erp_mobile_3.network.NetworkToken
 import com.rogoznyak.erp_mobile_3.network.Todo
 import com.rogoznyak.erp_mobile_3.network.TodoRepository
 import com.rogoznyak.erp_mobile_3.network.UpdateStatus
@@ -25,12 +27,22 @@ class SettingsFragmentViewModel : ViewModel() {
 
     suspend fun getConnectionStatus() = repository.getTodo(2).title
 
+    suspend fun sendToken(Token : String) = repository.setToken(NetworkToken(Token))
+
     private val _updateStatusNeedsUpdate = MutableLiveData<Boolean>()
     val updateStatusNeedsUpdate: LiveData<Boolean>
         get() = _updateStatusNeedsUpdate
 
     fun setUpdateStatusNeedsUpdate(Status: Boolean) {
         _updateStatusNeedsUpdate.value = Status
+    }
+
+    private val _sendTokenNeedsUpdate = MutableLiveData<Boolean>()
+    val sendTokenNeedsUpdate: LiveData<Boolean>
+        get() = _sendTokenNeedsUpdate
+
+    fun setSendTokenNeedsUpdate(Status: Boolean) {
+        _sendTokenNeedsUpdate.value = Status
     }
 
     suspend fun getUpdateStatus() = repository.updateCatalogues()

@@ -35,4 +35,9 @@
     <string name="user_name_default">Default user name</string>
     <string name="label_task_fragment">Task</string>
     <string name="title_search">Search</string>
+    <string name="notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="notification_channel_name" translatable="false">firebase</string>
+    <string name="notification_title" translatable="false">firebase_title</string>
+    <string name="setting_send_token">Send token</string>
+    <string name="setting_send_token_status">Send token status</string>
 </resources>

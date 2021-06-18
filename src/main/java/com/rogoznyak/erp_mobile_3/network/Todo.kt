@@ -56,6 +56,9 @@ interface Webservice {
     @POST("erp_anit/hs/erp_mobile_app/task")
     suspend fun sendTask(@Body networkTask: NetworkTask): Todo
 
+    @POST("erp_anit/hs/erp_mobile_app/setToken")
+    suspend fun setToken(@Body networkToken: NetworkToken): Todo
+
 }
 
 val webservice by lazy {
@@ -247,6 +250,10 @@ class TodoRepository {
         withContext(Dispatchers.IO){
             getDatabase(appContext).AppDao.insertOrUpdate(databaseTask)
         }
+    }
+
+    suspend fun setToken(networkToken: NetworkToken) : Todo {
+        return client.setToken(networkToken)
     }
 
 

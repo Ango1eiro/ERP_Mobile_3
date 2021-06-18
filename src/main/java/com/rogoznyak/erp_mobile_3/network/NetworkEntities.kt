@@ -19,3 +19,7 @@ data class NetworkTask(
     val user: String,
     val description: String
 )
+
+data class NetworkToken(
+    val token: String
+)

@@ -18,6 +18,10 @@
         app:key="updateCatalogues"
         app:title="@string/setting_update_catalogues"
         app:summary="@string/setting_update_catalogues_status"/>
+    <Preference
+        app:key="sendToken"
+        app:title="@string/setting_send_token"
+        app:summary="@string/setting_send_token_status"/>
     <PreferenceCategory
         android:title="@string/setting_connection_settings">
 
